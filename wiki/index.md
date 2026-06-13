@@ -5,7 +5,12 @@ Master catalog of all wiki pages. Read this first on every query. Updated on eve
 ---
 
 ## Concepts
-<!-- Add: - [[concepts/page]] — one-line description -->
+- [[concepts/aidd]] — Architecture of Intent-Driven Development: ekte's bærende begreb
+- [[concepts/intent-specification]] — gør det underforståede eksplicit før agenten handler
+- [[concepts/sprog-som-konstruktion]] — forståelse konstrueres; kanalmetaforen bryder sammen
+- [[concepts/to-slags-forkert]] — misfire vs abuse; fra compile-fejl til fortolkningsfejl
+- [[concepts/harness-engineering]] — agent = harness + sprogmodel; ekte
+- [[concepts/fra-determinisme-til-probabilisme]] — det grundlæggende sprogskifte
 
 ## Patterns
 <!-- Add: - [[patterns/page]] — one-line description -->
@@ -23,7 +28,7 @@ Master catalog of all wiki pages. Read this first on every query. Updated on eve
 <!-- Add: - [[people/page]] — one-line description -->
 
 ## Synthesis
-<!-- Add: - [[synthesis/page]] — one-line description -->
+- [[synthesis/intent-lineage]] — fra SDD/ISL/ICE/IDD/intent-architect til AIDD
 
 ## Connections
 <!-- Add: - [[connections/page]] — one-line description -->
