@@ -1,135 +1,84 @@
-# [TOPIC] — LLM Wiki Template
+# simple-minded — videnslager til ekte
 
-A Claude-maintained personal knowledge base. You curate sources. Claude does the bookkeeping: summarizing, cross-referencing, filing, and keeping pages current.
+Et agnostisk template til en LLM-vedligeholdt wiki — videnslageret bag
+[ekte](https://github.com/danskode/ekte), den personlige AI developer harness.
 
-**The wiki is the artifact. Chat history is disposable.**
+Du kuraterer kilderne; agenten gør bogføringen: opsummerer, krydshenviser, filer
+og holder siderne aktuelle. **Wikien er artefaktet. Chatten er forgængelig.** Er
+noget værd at vide, bor det på en wiki-side — ikke i en samtale der forsvinder.
 
----
+I modsætning til RAG, hvor man henter tekststumper on demand, bygger denne wiki
+persistente, krydshenviste sider der bliver rigere for hver kilde du tilføjer.
 
-## What This Is
+## Agnostisk
 
-An LLM-maintained wiki that compounds over time. Unlike RAG — where you retrieve chunks on demand — this wiki builds persistent, cross-referenced pages that grow richer with every source you add. Claude writes and updates the pages; you decide what goes in.
+Repoet er rene data: markdown-sider + et indeks + et lille søgeskript. Det er
+**ekte** (med den LLM/agent du har valgt) der forbruger og vedligeholder wikien —
+intet her er bundet til en bestemt model eller et bestemt værktøj. Der er ingen
+`CLAUDE.md`: ekte er styringen, og driften sker via ekte og `wiki-maintainer`-skill'en.
 
-The template is topic-agnostic. Use it for research, professional learning, a domain you're studying, or any subject where you want knowledge to accumulate rather than disappear into chat history.
-
----
-
-## Prerequisites
-
-- [Claude Code](https://claude.ai/code) CLI installed and authenticated
-
----
-
-## Setup
+## Opsætning via ekte
 
 ```bash
-# 1. Clone the template
-git clone https://github.com/your-username/simple-wiki my-wiki
-cd my-wiki
-
-# 2. Open in Claude Code
-claude .
-
-# 3. Run the setup wizard
-/start-new-wiki
+ekte init          # vælg "wiki" → simple-minded klones som dit videnslager
 ```
 
-The `/start-new-wiki` skill will ask you four questions:
-- What is this wiki about?
-- What language will you write in?
-- Which types of sources will you import?
-- What are your main subject categories?
+Under opsætningen kan du tilvælge **standard AIDD-indhold** (færdige wiki-sider om
+AIDD) — det ligger på `aidd`-branchen. Vælger du fra, får du et tomt template på
+`main`.
 
-It then creates the right directory structure, updates `CLAUDE.md` with your taxonomy, and leaves you ready to ingest your first source.
+## Brug i ekte
 
----
+| Handling | Hvordan |
+|---|---|
+| Slå op | `/wiki "spørgsmål"` — ekte finder relevante sider og syntetiserer et svar |
+| Gem et svar som side | `/wiki-gem <titel>` |
+| Ingest, gap-analyse, lint | aktivér `wiki-maintainer`-skill'en (auto-installeres når du tilvælger wiki) |
 
-## Core Workflow
+`wiki-maintainer` bærer drifts-viden (hvordan man ingester en kilde, finder huller
+mellem klynger og holder wikien sund). Den er obligatorisk når wiki er tilvalgt.
 
-### Ingest a source
-
-Add a file to `raw/` (article, PDF, transcript, etc.), then:
-
-```
-ingest raw/articles/my-article.md
-```
-
-Claude reads the source, writes a summary page, updates all relevant wiki pages, and files everything in the index. A single source typically touches 5–15 pages.
-
-### Ask a question
-
-Just ask. Claude reads the index, finds relevant pages, and synthesizes an answer with citations. If the answer is worth keeping, it gets filed back as a wiki page.
-
-```
-what does the literature say about X?
-how does concept A relate to concept B?
-```
-
-### Find gaps
-
-```
-gap analysis
-```
-
-Claude groups your pages into clusters, identifies pairs with few cross-links, and creates `connections/` bridge pages for meaningful gaps. New research questions go into `questions/`.
-
-### Health check
-
-```
-lint the wiki
-```
-
-Claude checks for contradictions, orphan pages, missing cross-references, and stale claims — and fixes what it can inline.
-
----
-
-## Directory Layout
+## Mappestruktur
 
 ```
 wiki-root/
-├── CLAUDE.md              ← operating manual for Claude
-├── README.md              ← this file
-├── .claude/
-│   └── skills/
-│       ├── start-new-wiki/    ← first-time setup wizard
-│       └── gem-til-rendered/  ← save a response as a standalone doc
+├── README.md              ← denne fil
 ├── wiki/
-│   ├── index.md           ← master catalog (Claude reads this first)
-│   ├── log.md             ← append-only operations log
-│   ├── overview.md        ← living synthesis of the subject
-│   ├── concepts/          ← core concepts
-│   ├── patterns/          ← recurring patterns or frameworks
-│   ├── models/            ← models, systems, or formal structures
-│   ├── tools/             ← tools, software, or methods
-│   ├── papers/            ← source summaries
-│   ├── people/            ← key people
-│   ├── synthesis/         ← cross-cutting analysis
-│   ├── connections/       ← bridge pages linking concept clusters
-│   └── questions/         ← open research questions
-├── raw/                   ← your source files (immutable)
-│   └── [subdirs]/         ← created by /start-new-wiki
-├── rendered/              ← standalone output documents
+│   ├── index.md           ← masterkatalog (læses først ved opslag)
+│   ├── log.md             ← append-only driftslog
+│   ├── overview.md        ← levende syntese af emnet
+│   ├── concepts/          ← kernebegreber
+│   ├── patterns/          ← mønstre og frameworks
+│   ├── models/            ← modeller og formelle strukturer
+│   ├── tools/             ← værktøjer og metoder
+│   ├── papers/            ← kilde-opsummeringer
+│   ├── people/            ← nøglepersoner
+│   ├── synthesis/         ← tværgående analyse
+│   ├── connections/       ← bro-sider mellem begrebsklynger
+│   └── questions/         ← åbne spørgsmål fra gap-analyse
+├── raw/                   ← dine kildefiler (ukrænkelige)
+├── rendered/              ← selvstændige output-dokumenter
 └── tools/
-    └── search.sh          ← keyword search across wiki/
+    └── search.sh          ← nøgleordssøgning på tværs af wiki/
 ```
 
-**`raw/` is immutable.** Never edit files there — they are the source of truth that wiki pages are derived from.
+**`raw/` er ukrænkelig.** Ret aldrig filer der — de er kilden som siderne udledes
+fra. Vil du annotere en kilde, gør det på wiki-siden.
 
+## Side-skema
+
+Hver side starter med YAML-frontmatter (samme felter som ekte genererer ved
+`/wiki-gem`):
+
+```yaml
 ---
-
-## Skills Included
-
-| Skill | How to invoke | What it does |
-|-------|--------------|--------------|
-| `/start-new-wiki` | Once, after cloning | Setup wizard: configures topic, media types, taxonomy |
-| `/gem-til-rendered` | After any response | Saves the response as a formatted standalone document in `rendered/` |
-
+type: concept | pattern | model | tool | paper | person | synthesis | connection | question
+tags: [tag1, tag2]
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+source_count: 0
 ---
+```
 
-## Tips
-
-- **Keep `raw/` immutable.** If you want to annotate a source, do it in the wiki page, not the raw file.
-- **File good answers back.** If Claude synthesizes something useful, ask it to save it as a wiki page — otherwise it disappears into chat history.
-- **Run gap analysis every 10 ingests.** That's roughly when clusters become rich enough for meaningful bridges to emerge.
-- **The `connections/` and `questions/` pages are where the real value is.** They capture insights that don't exist in any single source.
-- **Use `wiki/log.md` to orient yourself.** Read the last 10 entries at the start of a new session to remember where you left off.
+Krydshenvis med wikilinks: `[[concepts/side-navn]]`. Marker modsigelser med
+`> **⚠ Modsigelse med [[side]]:** forklaring`.
