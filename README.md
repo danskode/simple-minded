@@ -1,5 +1,14 @@
 # simple-minded — videnslager til ekte
 
+```
+█▀▀ █ █▀▄▀█ █▀█ █   █▀▀
+▀▀█ █ █ ▀ █ █▀▀ █   █▀▀
+▀▀▀ ▀ ▀   ▀ ▀   ▀▀▀ ▀▀▀
+█▀▄▀█ █ █▄ █ █▀▄ █▀▀ █▀▄
+█ ▀ █ █ █ ▀█ █ █ █▀▀ █ █
+▀   ▀ ▀ ▀  ▀ ▀▀  ▀▀▀ ▀▀ 
+```
+
 Et agnostisk template til en LLM-vedligeholdt wiki — videnslageret bag
 [ekte](https://github.com/danskode/ekte), den personlige AI developer harness.
 
